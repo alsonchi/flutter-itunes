@@ -1,16 +1,7 @@
-# flutter_itunes
+# Flutter ITunes Music App
 
-A new Flutter project.
+A Flutter iTunes App is a mobile application that allows users to browse, search, and stream music from the iTunes library. Built using the Flutter framework. Users can search for albums, or songs and instantly play a preview. With Flutter's cross-platform capabilities, this iTunes Music App can deliver a seamless and consistent experience across multiple mobile devices.
 
-## Getting Started
+## Screenshots
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![alt text](https://github.com/alsonchi/flutter-itunes/blob/develop/Screenshot.png)
