@@ -36,20 +36,25 @@ class SongList extends GetView<ListController> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: CustomScrollView(
-          controller: scrollController,
-          slivers: [
-            appbar(),
-            CupertinoSliverRefreshControl(
-              onRefresh: () async => await controller.fetchList(),
+        body: Stack(
+          children: [
+            CustomScrollView(
+              controller: scrollController,
+              slivers: [
+                appbar(),
+                CupertinoSliverRefreshControl(
+                  onRefresh: () async => await controller.fetchList(),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.all(AppDimens.paddingSmall),
+                  sliver: list().sliverBox,
+                ),
+              ],
             ),
-            SliverPadding(
-              padding: const EdgeInsets.all(AppDimens.paddingSmall),
-              sliver: list().sliverBox,
-            ),
+            player(),
           ],
         ),
-        bottomNavigationBar: player(),
+        // bottomNavigationBar: player(),
       ),
     );
   }
@@ -169,73 +174,75 @@ class SongList extends GetView<ListController> {
         return const SizedBox();
       }
 
-      return Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade200,
-              blurRadius: AppDimens.radiusSmaller,
-              offset: const Offset(0, -2),
-            ),
-          ],
-          color: Colors.white,
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(AppDimens.radiusLarge),
-              topRight: Radius.circular(AppDimens.radiusLarge)),
-        ),
-        padding: const EdgeInsets.only(
-          left: AppDimens.paddingSmall,
-          right: AppDimens.paddingSmall,
-          top: AppDimens.paddingSmall,
-          bottom: AppDimens.paddingLarge,
-        ),
-        child: Row(
-          children: [
-            ClipRRect(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(AppDimens.radiusSmall),
+      return Positioned(
+        bottom: 10,
+        left: 0,
+        right: 0,
+        child: Padding(
+          padding: const EdgeInsets.all(AppDimens.paddingSmall),
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade500,
+                  blurRadius: AppDimens.radiusSmaller,
+                  offset: const Offset(2, 2),
                 ),
-                child: Image.network(
-                  controller.state.playSong.value.collectionCover!,
-                  width: 45,
-                  height: 45,
-                )),
-            const SizedBox(width: AppDimens.marginTiny),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    controller.state.playSong.value.name,
-                    style: AppTextStyles.bodySmall.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    controller.state.playSong.value.collection,
-                    style: AppTextStyles.bodyXSmall,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
+              ],
+              color: Colors.white,
+              borderRadius: const BorderRadius.all(
+                  Radius.circular(AppDimens.radiusLarge)),
             ),
-            const SizedBox(height: AppDimens.paddingTiny),
-            IconButton(
-              onPressed: () => controller.state.playerPlay.value
-                  ? controller.playerPause()
-                  : controller.playerResume(),
-              icon: Icon(
-                controller.state.playerPlay.value
-                    ? Icons.stop_circle
-                    : Icons.play_circle,
-                color: Colors.grey.shade400,
-              ),
-            )
-          ],
+            padding: const EdgeInsets.all(AppDimens.paddingSmall),
+            child: Row(
+              children: [
+                ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(AppDimens.radiusSmall),
+                    ),
+                    child: Image.network(
+                      controller.state.playSong.value.collectionCover!,
+                      width: 45,
+                      height: 45,
+                    )),
+                const SizedBox(width: AppDimens.marginTiny),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        controller.state.playSong.value.name,
+                        style: AppTextStyles.bodySmall.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        controller.state.playSong.value.collection,
+                        style: AppTextStyles.bodyXSmall,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: AppDimens.paddingTiny),
+                IconButton(
+                  onPressed: () => controller.state.playerPlay.value
+                      ? controller.playerPause()
+                      : controller.playerResume(),
+                  icon: Icon(
+                    controller.state.playerPlay.value
+                        ? Icons.stop_circle
+                        : Icons.play_circle,
+                    color: Colors.grey.shade400,
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       );
     });

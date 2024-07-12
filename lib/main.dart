@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_itunes/view/list/controller/controller_list.dart';
 import 'package:flutter_itunes/view/list/list.dart';
 import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
 
 void main() async {
   /**
