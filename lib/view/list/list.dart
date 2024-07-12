@@ -39,9 +39,7 @@ class List extends GetView<ListController> {
           appbar(),
           SliverPadding(
             padding: const EdgeInsets.all(AppDimens.paddingSmall),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([list()]),
-            ),
+            sliver: list(),
           ),
         ],
       ),
@@ -77,7 +75,7 @@ class List extends GetView<ListController> {
                     Expanded(
                       child: SearchField(
                         onChanged: (value) {
-                          print(value);
+                          controller.searchSong(value);
                         },
                       ),
                     ),
@@ -117,21 +115,23 @@ class List extends GetView<ListController> {
 
   Widget list() {
     return Obx(
-      () => RefreshIndicator(
-        onRefresh: () async {
-          await controller.fetchList();
-        },
-        child: SingleChildScrollView(
-          child: Column(
-            children: controller.state.list
-                .map(
-                  (song) => Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: AppDimens.marginLarge),
-                    child: SongCard(song),
-                  ),
-                )
-                .toList(),
+      () => SliverFillRemaining(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await controller.fetchList();
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: controller.state.list
+                  .map(
+                    (song) => Padding(
+                      padding:
+                          const EdgeInsets.only(bottom: AppDimens.marginLarge),
+                      child: SongCard(song),
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ),
       ),
