@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_itunes/api/itunes/repository_itunes.dart';
 import 'package:flutter_itunes/enums/sorting.dart';
 import 'package:flutter_itunes/model/song/song.dart';
@@ -69,9 +70,26 @@ class ListController extends GetxController {
       state.loading.value = true;
       state.orgList.value = await itunesRepository.fetch();
       processList();
-    } finally {}
-
-    state.loading.value = false;
+      state.loading.value = false;
+    } catch (e) {
+      Get.dialog(
+        AlertDialog(
+          title: const Text('Faild to fetch list'),
+          content:
+              const Text('Please check your internet connection and try again'),
+          actions: [
+            TextButton(
+              child: const Text("Retry"),
+              onPressed: () {
+                Get.back();
+                fetchList();
+              },
+            ),
+          ],
+        ),
+        barrierDismissible: false,
+      );
+    }
   }
 
   /*

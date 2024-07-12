@@ -14,15 +14,19 @@ class ItunesRepository implements IItunesRepository {
 
   @override
   Future<List<Song>> fetch() async {
-    final response = await dio.get(
-        "/search?term=${AppConfig.singer}&limit=${AppConfig.limit}&media=music");
+    try {
+      final response = await dio.get(
+          "/search?term=${AppConfig.singer}&limit=${AppConfig.limit}&media=music");
 
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load album');
+      if (response.statusCode != 200) {
+        throw Exception('Error fetching');
+      }
+
+      final data = json.decode(response.data);
+
+      return data['results'].map<Song>((json) => Song.fromJson(json)).toList();
+    } catch (e) {
+      throw Exception('Error fetching');
     }
-
-    final data = json.decode(response.data);
-
-    return data['results'].map<Song>((json) => Song.fromJson(json)).toList();
   }
 }

@@ -54,7 +54,6 @@ class SongList extends GetView<ListController> {
             player(),
           ],
         ),
-        // bottomNavigationBar: player(),
       ),
     );
   }

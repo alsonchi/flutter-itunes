@@ -3,7 +3,6 @@ import 'package:flutter_itunes/config/dimens.dart';
 import 'package:flutter_itunes/config/text.dart';
 import 'package:flutter_itunes/model/song/song.dart';
 import 'package:flutter_itunes/widget/shimmer_loading.dart';
-import 'package:just_audio/just_audio.dart';
 
 class SongCard extends StatelessWidget {
   final Song? song;
@@ -67,7 +66,7 @@ class SongCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         )
                       : const ShimmerLoading(height: 32),
-                  const SizedBox(height: AppDimens.paddingTiny),
+                  const SizedBox(height: AppDimens.paddingText),
                   !loading
                       ? Text(
                           song!.collection,
