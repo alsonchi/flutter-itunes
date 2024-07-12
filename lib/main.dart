@@ -28,13 +28,8 @@ class AppLoad extends StatefulWidget {
 class _AppLoadState extends State<AppLoad> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Itunes Search',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const List(),
+    return  MaterialApp(
+      home: List(),
     );
   }
 }

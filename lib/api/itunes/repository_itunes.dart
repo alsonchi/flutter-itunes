@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_itunes/api/itunes/interface_repository_itunes.dart';
-import 'package:flutter_itunes/config.dart';
+import 'package:flutter_itunes/config/config.dart';
 import 'package:flutter_itunes/model/song/song.dart';
 import 'dart:convert';
 
