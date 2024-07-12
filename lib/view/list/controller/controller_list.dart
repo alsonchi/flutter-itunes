@@ -17,7 +17,7 @@ class ListController extends GetxController {
    * filter & reorder list
    */
   void processList() {
-    state.list.value = state.orgList
+    List<Song> list = state.orgList
         .where((element) =>
             element.name
                 .toLowerCase()
@@ -26,6 +26,26 @@ class ListController extends GetxController {
                 .toLowerCase()
                 .contains(state.search.value.toLowerCase()))
         .toList();
+
+    switch (state.sortby.value) {
+      case Sorting.songDesc:
+        list.sort(
+            (a, b) => b.name.toLowerCase().compareTo(a.name.toLowerCase()));
+        break;
+      case Sorting.albumAsc:
+        list.sort((a, b) =>
+            a.collection.toLowerCase().compareTo(b.collection.toLowerCase()));
+        break;
+      case Sorting.albumDesc:
+        list.sort((a, b) =>
+            b.collection.toLowerCase().compareTo(a.collection.toLowerCase()));
+        break;
+      default:
+        list.sort(
+            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    }
+
+    state.list.value = list;
   }
 
   /*
@@ -46,6 +66,13 @@ class ListController extends GetxController {
    */
   void searchSong(String query) {
     state.search.value = query;
+    processList();
+  }
+
+  void sortby(Sorting sorting) {
+    if (state.sortby.value == sorting) return;
+
+    state.sortby.value = sorting;
     processList();
   }
 }

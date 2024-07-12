@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_itunes/view/list/controller/controller_list.dart';
 import 'package:flutter_itunes/view/list/list.dart';
+import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 
 void main() async {
@@ -28,7 +29,7 @@ class AppLoad extends StatefulWidget {
 class _AppLoadState extends State<AppLoad> {
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return  GetMaterialApp(
       home: List(),
     );
   }

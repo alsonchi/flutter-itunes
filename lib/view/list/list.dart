@@ -1,11 +1,12 @@
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_itunes/config/config.dart';
 import 'package:flutter_itunes/config/dimens.dart';
 import 'package:flutter_itunes/config/text.dart';
 import 'package:flutter_itunes/view/list/controller/controller_list.dart';
+import 'package:flutter_itunes/widget/filter_bottom_sheet.dart';
 import 'package:flutter_itunes/widget/search_field.dart';
 import 'package:flutter_itunes/widget/song_card.dart';
 import 'package:get/get.dart';
@@ -37,9 +38,12 @@ class List extends GetView<ListController> {
         controller: scrollController,
         slivers: [
           appbar(),
+          CupertinoSliverRefreshControl(
+            onRefresh: () async => await controller.fetchList(),
+          ),
           SliverPadding(
             padding: const EdgeInsets.all(AppDimens.paddingSmall),
-            sliver: list(),
+            sliver: list().sliverBox,
           ),
         ],
       ),
@@ -80,7 +84,10 @@ class List extends GetView<ListController> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await Get.bottomSheet(const FilterBottomSheet())
+                            .then((result) => controller.sortby(result));
+                      },
                       icon: const Icon(Icons.filter_list),
                     ),
                   ],
@@ -115,25 +122,15 @@ class List extends GetView<ListController> {
 
   Widget list() {
     return Obx(
-      () => SliverFillRemaining(
-        child: RefreshIndicator(
-          onRefresh: () async {
-            await controller.fetchList();
-          },
-          child: SingleChildScrollView(
-            child: Column(
-              children: controller.state.list
-                  .map(
-                    (song) => Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: AppDimens.marginLarge),
-                      child: SongCard(song),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
-        ),
+      () => Column(
+        children: controller.state.list
+            .map(
+              (song) => Padding(
+                padding: const EdgeInsets.only(bottom: AppDimens.marginLarge),
+                child: SongCard(song),
+              ),
+            )
+            .toList(),
       ),
     );
   }
