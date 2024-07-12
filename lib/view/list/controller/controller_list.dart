@@ -69,8 +69,8 @@ class ListController extends GetxController {
     processList();
   }
 
-  void sortby(Sorting sorting) {
-    if (state.sortby.value == sorting) return;
+  void sortby(Sorting? sorting) {
+    if (state.sortby.value == sorting || sorting == null) return;
 
     state.sortby.value = sorting;
     processList();

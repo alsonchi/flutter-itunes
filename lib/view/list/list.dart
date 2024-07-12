@@ -32,20 +32,23 @@ class List extends GetView<ListController> {
                         (expandedHeight - collapsedHeight))));
       });
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: CustomScrollView(
-        controller: scrollController,
-        slivers: [
-          appbar(),
-          CupertinoSliverRefreshControl(
-            onRefresh: () async => await controller.fetchList(),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(AppDimens.paddingSmall),
-            sliver: list().sliverBox,
-          ),
-        ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: CustomScrollView(
+          controller: scrollController,
+          slivers: [
+            appbar(),
+            CupertinoSliverRefreshControl(
+              onRefresh: () async => await controller.fetchList(),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(AppDimens.paddingSmall),
+              sliver: list().sliverBox,
+            ),
+          ],
+        ),
       ),
     );
   }
