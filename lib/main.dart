@@ -30,7 +30,7 @@ class _AppLoadState extends State<AppLoad> {
   @override
   Widget build(BuildContext context) {
     return  GetMaterialApp(
-      home: List(),
+      home: SongList(),
     );
   }
 }

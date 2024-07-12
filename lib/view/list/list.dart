@@ -11,13 +11,13 @@ import 'package:flutter_itunes/widget/search_field.dart';
 import 'package:flutter_itunes/widget/song_card.dart';
 import 'package:get/get.dart';
 
-class List extends GetView<ListController> {
+class SongList extends GetView<ListController> {
   late ScrollController scrollController;
   RxDouble progress = 1.0.obs;
   final double expandedHeight = 110;
   final double collapsedHeight = 56;
 
-  List({super.key});
+  SongList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -124,17 +124,38 @@ class List extends GetView<ListController> {
   }
 
   Widget list() {
-    return Obx(
-      () => Column(
+    return Obx(() {
+      if (controller.state.loading.value && controller.state.list.isEmpty) {
+        return Column(
+          children: List.generate(
+            10,
+            (index) => const Padding(
+              padding: EdgeInsets.only(bottom: AppDimens.marginLarge),
+              child: SongCard(loading: true),
+            ),
+          ),
+        );
+      }
+
+      if (!controller.state.loading.value && controller.state.list.isEmpty) {
+        return Center(
+            child: Text(
+          "No data found",
+          style: AppTextStyles.headingL,
+          textAlign: TextAlign.center,
+        ));
+      }
+
+      return Column(
         children: controller.state.list
             .map(
               (song) => Padding(
                 padding: const EdgeInsets.only(bottom: AppDimens.marginLarge),
-                child: SongCard(song),
+                child: SongCard(song: song),
               ),
             )
             .toList(),
-      ),
-    );
+      );
+    });
   }
 }
