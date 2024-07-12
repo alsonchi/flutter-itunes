@@ -19,6 +19,6 @@ class AppDimens {
   static const radiusLarger = 25.0;
   static const radiusLarge = 20.0;
   static const radiusMedium = 16.0;
-  static const radiusSmall = 10.0;
+  static const radiusSmall = 8.0;
   static const radiusSmaller = 6.0;
 }

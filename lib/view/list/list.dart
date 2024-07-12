@@ -7,6 +7,7 @@ import 'package:flutter_itunes/config/dimens.dart';
 import 'package:flutter_itunes/config/text.dart';
 import 'package:flutter_itunes/view/list/controller/controller_list.dart';
 import 'package:flutter_itunes/widget/search_field.dart';
+import 'package:flutter_itunes/widget/song_card.dart';
 import 'package:get/get.dart';
 
 class List extends GetView<ListController> {
@@ -36,7 +37,12 @@ class List extends GetView<ListController> {
         controller: scrollController,
         slivers: [
           appbar(),
-          SliverList(delegate: SliverChildListDelegate([list()]))
+          SliverPadding(
+            padding: const EdgeInsets.all(AppDimens.paddingSmall),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([list()]),
+            ),
+          ),
         ],
       ),
     );
@@ -118,11 +124,13 @@ class List extends GetView<ListController> {
         child: SingleChildScrollView(
           child: Column(
             children: controller.state.list
-                .map((song) => ListTile(
-                      title: Text(song.name),
-                      subtitle: Text(song.artist),
-                      leading: Image.network(song.collectionCover!),
-                    ))
+                .map(
+                  (song) => Padding(
+                    padding:
+                        const EdgeInsets.only(bottom: AppDimens.marginLarge),
+                    child: SongCard(song),
+                  ),
+                )
                 .toList(),
           ),
         ),
