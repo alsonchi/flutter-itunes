@@ -49,6 +49,7 @@ class SongList extends GetView<ListController> {
             ),
           ],
         ),
+        bottomNavigationBar: player(),
       ),
     );
   }
@@ -151,10 +152,91 @@ class SongList extends GetView<ListController> {
             .map(
               (song) => Padding(
                 padding: const EdgeInsets.only(bottom: AppDimens.marginLarge),
-                child: SongCard(song: song),
+                child: SongCard(
+                  song: song,
+                  playCallback: () => controller.playerPlay(song),
+                ),
               ),
             )
             .toList(),
+      );
+    });
+  }
+
+  Widget player() {
+    return Obx(() {
+      if (controller.state.playSong.value.previewUrl == null) {
+        return const SizedBox();
+      }
+
+      return Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade200,
+              blurRadius: AppDimens.radiusSmaller,
+              offset: const Offset(0, -2),
+            ),
+          ],
+          color: Colors.white,
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(AppDimens.radiusLarge),
+              topRight: Radius.circular(AppDimens.radiusLarge)),
+        ),
+        padding: const EdgeInsets.only(
+          left: AppDimens.paddingSmall,
+          right: AppDimens.paddingSmall,
+          top: AppDimens.paddingSmall,
+          bottom: AppDimens.paddingLarge,
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(AppDimens.radiusSmall),
+                ),
+                child: Image.network(
+                  controller.state.playSong.value.collectionCover!,
+                  width: 45,
+                  height: 45,
+                )),
+            const SizedBox(width: AppDimens.marginTiny),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    controller.state.playSong.value.name,
+                    style: AppTextStyles.bodySmall.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    controller.state.playSong.value.collection,
+                    style: AppTextStyles.bodyXSmall,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: AppDimens.paddingTiny),
+            IconButton(
+              onPressed: () => controller.state.playerPlay.value
+                  ? controller.playerPause()
+                  : controller.playerResume(),
+              icon: Icon(
+                controller.state.playerPlay.value
+                    ? Icons.stop_circle
+                    : Icons.play_circle,
+                color: Colors.grey.shade400,
+              ),
+            )
+          ],
+        ),
       );
     });
   }

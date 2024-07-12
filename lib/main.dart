@@ -29,7 +29,7 @@ class AppLoad extends StatefulWidget {
 class _AppLoadState extends State<AppLoad> {
   @override
   Widget build(BuildContext context) {
-    return  GetMaterialApp(
+    return GetMaterialApp(
       home: SongList(),
     );
   }

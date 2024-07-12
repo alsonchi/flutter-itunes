@@ -16,6 +16,14 @@ class Song {
       required this.name,
       this.previewUrl});
 
+  static Song get NULL => Song(
+        trackId: 0,
+        collectionId: 0,
+        artist: '',
+        collection: '',
+        name: '',
+      );
+
   factory Song.fromJson(Map<String, dynamic> json) {
     return Song(
       trackId: json['trackId'],

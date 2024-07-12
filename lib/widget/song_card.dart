@@ -3,15 +3,17 @@ import 'package:flutter_itunes/config/dimens.dart';
 import 'package:flutter_itunes/config/text.dart';
 import 'package:flutter_itunes/model/song/song.dart';
 import 'package:flutter_itunes/widget/shimmer_loading.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:just_audio/just_audio.dart';
 
 class SongCard extends StatelessWidget {
   final Song? song;
   final bool loading;
+  final Function? playCallback;
 
   const SongCard({
     this.song,
     this.loading = false,
+    this.playCallback,
     super.key,
   });
 
@@ -85,7 +87,8 @@ class SongCard extends StatelessWidget {
             child: Center(
               child: !loading
                   ? IconButton(
-                      onPressed: () => {},
+                      onPressed: () =>
+                          playCallback != null ? playCallback!() : null,
                       icon:
                           Icon(Icons.play_circle, color: Colors.grey.shade400),
                     )
