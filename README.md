@@ -5,3 +5,11 @@ A Flutter iTunes App is a mobile application that allows users to browse, search
 ## Screenshots
 
 ![alt text](https://github.com/alsonchi/flutter-itunes/blob/develop/Screenshot.png)
+
+### How to run the app
+
+1. download project zip file
+2. cd project folder
+3. open project by Visual Studio Code
+4. run "flutter pub get"
+5. run debug mode
